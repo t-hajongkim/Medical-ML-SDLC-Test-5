@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "stage": "evaluation",
+  "selected_ids": [
+    "roc_auc",
+    "average_precision",
+    "brier_score",
+    "calibration_curve",
+    "f1",
+    "recall",
+    "precision"
+  ],
+  "items": [
+    {
+      "id": "roc_auc",
+      "sources": [
+        "default",
+        "ai"
+      ],
+      "state": "eligible_planned_inputs",
+      "reason": "설정된 기본 정책에 포함된 블록입니다. 임계값 없이 순위 구분력을 보는 보조 지표입니다. 환자 단위 중복과 검증 재사용 때문에 낙관적일 수 있어 임상 승인 근거가 아닙니다. 입력은 이후 생성할 계획이며 아직 계산하지 않았습니다. 실제 지표 실행 시 행 정합과 수학적 요건을 다시 검증합니다.",
+      "blocked_reasons": [],
+      "requires": [
+        "y_true",
+        "y_probability"
+      ],
+      "requires_parameters": [],
+      "requires_context": [],
+      "required": false,
+      "evidence": [
+        "objectives.evaluation",
+        "probability_output_planned",
+        "required.patient_overlap.status"
+      ]
+    },
+    {
+      "id": "average_precision",
+      "sources": [
+        "default",
+        "ai",
+        "user"
+      ],
+      "state": "eligible_planned_inputs",
+      "reason": "설정된 기본 정책에 포함된 블록입니다. 재입원 양성률이 약 11%로 불균형하여 AP가 양성 탐지 성능을 요약하는 데 적합하며 요청된 주지표입니다. 환자 중복이 있는 분할이라 독립 검증 성능으로 해석하지 않습니다. 사용자가 추가로 선택한 블록입니다. 입력은 이후 생성할 계획이며 아직 계산하지 않았습니다. 실제 지표 실행 시 행 정합과 수학적 요건을 다시 검증합니다.",
+      "blocked_reasons": [],
+      "requires": [
+        "y_true",
+        "y_probability"
+      ],
+      "requires_parameters": [],
+      "requires_context": [],
+      "required": false,
+      "evidence": [
+        "coordinated.cohort",
+        "split_counts",
+        "required.patient_overlap.overlaps"
+      ]
+    },
+    {
+      "id": "brier_score",
+      "sources": [
+        "default",
+        "ai"
+      ],
+      "state": "eligible_planned_inputs",
+      "reason": "설정된 기본 정책에 포함된 블록입니다. 확률 출력 품질을 점검하는 지표입니다. 불균형 데이터에서는 기준 확률과 함께 해석해야 하며 확률 출력은 이후 생성될 입력입니다. 입력은 이후 생성할 계획이며 아직 계산하지 않았습니다. 실제 지표 실행 시 행 정합과 수학적 요건을 다시 검증합니다.",
+      "blocked_reasons": [],
+      "requires": [
+        "y_true",
+        "y_probability"
+      ],
+      "requires_parameters": [],
+      "requires_context": [],
+      "required": false,
+      "evidence": [
+        "objectives.evaluation",
+        "probability_output_planned",
+        "labels_planned"
+      ]
+    },
+    {
+      "id": "calibration_curve",
+      "sources": [
+        "default",
+        "ai"
+      ],
+      "state": "eligible_planned_inputs",
+      "reason": "설정된 기본 정책에 포함된 블록입니다. 예측 확률과 관찰 재입원율의 일치를 구간별로 확인합니다. n_bins는 기본값을 쓰며 사람이 확정한 값이 아닙니다. 입력은 이후 생성할 계획이며 아직 계산하지 않았습니다. 실제 지표 실행 시 행 정합과 수학적 요건을 다시 검증합니다.",
+      "blocked_reasons": [],
+      "requires": [
+        "y_true",
+        "y_probability"
+      ],
+      "requires_parameters": [],
+      "requires_context": [],
+      "required": false,
+      "evidence": [
+        "objectives.evaluation",
+        "parameters.n_bins_defined",
+        "probability_output_planned"
+      ]
+    },
+    {
+      "id": "f1",
+      "sources": [
+        "ai",
+        "user"
+      ],
+      "state": "eligible_planned_inputs",
+      "reason": "피드백으로 요청된 임계값 기반 지표이며 교육용으로 지정된 0.5를 사용합니다. 이 값은 임상 표준이나 최적값이 아니며 정밀도와 재현율의 균형만 요약합니다. 사용자가 추가로 선택한 블록입니다. 입력은 이후 생성할 계획이며 아직 계산하지 않았습니다. 실제 지표 실행 시 행 정합과 수학적 요건을 다시 검증합니다.",
+      "blocked_reasons": [],
+      "requires": [
+        "y_true",
+        "y_probability"
+      ],
+      "requires_parameters": [
+        "threshold"
+      ],
+      "requires_context": [],
+      "required": false,
+      "evidence": [
+        "parameters.threshold_defined",
+        "objectives.evaluation",
+        "labels_planned"
+      ]
+    },
+    {
+      "id": "recall",
+      "sources": [
+        "ai",
+        "user"
+      ],
+      "state": "eligible_planned_inputs",
+      "reason": "피드백으로 요청되었으며 교육용 임계값 0.5에서 실제 재입원 중 탐지 비율을 봅니다. 임상 행동이나 비용 근거가 없으므로 운영 임계값으로 해석하지 않습니다. 사용자가 추가로 선택한 블록입니다. 입력은 이후 생성할 계획이며 아직 계산하지 않았습니다. 실제 지표 실행 시 행 정합과 수학적 요건을 다시 검증합니다.",
+      "blocked_reasons": [],
+      "requires": [
+        "y_true",
+        "y_probability"
+      ],
+      "requires_parameters": [
+        "threshold"
+      ],
+      "requires_context": [],
+      "required": false,
+      "evidence": [
+        "parameters.threshold_defined",
+        "objectives.evaluation",
+        "labels_planned"
+      ]
+    },
+    {
+      "id": "precision",
+      "sources": [
+        "ai",
+        "user"
+      ],
+      "state": "eligible_planned_inputs",
+      "reason": "피드백으로 요청되었으며 교육용 임계값 0.5에서 양성 예측 중 실제 재입원 비율을 봅니다. 양성률 약 11%의 영향을 받고 임상 승인과 무관합니다. 사용자가 추가로 선택한 블록입니다. 입력은 이후 생성할 계획이며 아직 계산하지 않았습니다. 실제 지표 실행 시 행 정합과 수학적 요건을 다시 검증합니다.",
+      "blocked_reasons": [],
+      "requires": [
+        "y_true",
+        "y_probability"
+      ],
+      "requires_parameters": [
+        "threshold"
+      ],
+      "requires_context": [],
+      "required": false,
+      "evidence": [
+        "parameters.threshold_defined",
+        "objectives.evaluation",
+        "coordinated.cohort"
+      ]
+    }
+  ],
+  "defaults": [
+    "roc_auc",
+    "average_precision",
+    "brier_score",
+    "calibration_curve"
+  ],
+  "required_ids": [],
+  "ai_recommended_ids": [
+    "average_precision",
+    "roc_auc",
+    "brier_score",
+    "calibration_curve",
+    "f1",
+    "recall",
+    "precision"
+  ],
+  "user_added_ids": [
+    "average_precision",
+    "f1",
+    "recall",
+    "precision"
+  ],
+  "user_excluded_ids": [],
+  "objectives": [
+    "discrimination",
+    "probability_quality",
+    "threshold_performance"
+  ],
+  "ai_status": "provided",
+  "approval_required": true,
+  "planning_complete": true,
+  "draft": false,
+  "clinical_use_approved": false,
+  "primary_metric": "average_precision",
+  "threshold": 0.5,
+  "parameters": {
+    "threshold": 0.5
+  },
+  "clinical_action": null,
+  "comparison_model": null,
+  "planned_inputs": {
+    "y_true": true,
+    "y_probability": true,
+    "sample_ids": true,
+    "reference_sample_ids": false,
+    "reference_probabilities": false
+  },
+  "interpretation": "계산 계획은 임상 사용 승인이나 독립 성능 검증이 아닙니다. 환자 중복과 validation 재사용의 설계 한계를 별도로 유지합니다."
+}
